@@ -1,0 +1,204 @@
+= Experiments Format
+:sectnums:
+:sectnumlevels: 5
+:toc: left
+:toc-title: Contents
+:toclevels: 5
+:idprefix:
+:idseparator: -
+:xrefstyle: short
+:docinfo: shared
+:docinfodir: theme/docinfo
+:stem: latexmath
+:source-highlighter: highlightjs
+:highlightjs-theme: github
+:nofooter:
+:icons: font
+:website-url: https://modelica.org/
+:repo-url: https://github.com/modelica/ma-hs-experiments
+:logo: MA
+
+This document specifies the Experiments Format, a simple XML-based file format that allows the description of experiment setups for simulation models, including parameters, stimuli, and reference results.
+This format is intended to be referenced from layered standards such as https://github.com/modelica/fmi-ls-ref[FMI-LS-REF].
+
+NOTE: The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in https://tools.ietf.org/html/rfc2119[RFC 2119] (regardless of formatting and capitalization).
+
+Copyright (C) 2023-2026 The Modelica Association.
+
+This document is licensed under the Attribution-ShareAlike 4.0 International license.
+The code is released under the 2-Clause BSD License.
+The licenses text can be found in the link:../LICENSE.txt[LICENSE.txt] file that accompanies this distribution.
+
+== Introduction
+
+=== Intent of This Document
+
+This document specifies the Experiments Format (`ma-hs-experiments`), a simple XML-based file format for describing experiment setups for simulation models.
+The format allows tools to exchange experiment definitions including start and stop time, solver settings, parameter sets, stimuli, and reference results.
+
+=== How to Read This Document
+
+In key parts of this document, non-normative examples are used to help understand the format.
+
+Conventions used in this document:
+
+* Non-normative text is given like this:
++
+NOTE: Especially examples are defined in this style.
+
+* The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in https://tools.ietf.org/html/rfc2119[RFC 2119] (regardless of formatting and capitalization).
+
+== Experiments Format
+
+Files using this format shall use the MIME type `application/x-ma-hs-experiments`, and a file type suffix of `.exp`.
+
+An experiments file is a valid XML file that conforms to the schema defined in link:../schema/maHarmonizedSpecificationExperiments.xsd[maHarmonizedSpecificationExperiments.xsd].
+The root element is `<Experiments>` with the following attributes:
+
+.Experiments Attributes.
+[[table-schema-ma-hs-experiments-root-attributes]]
+[cols="1,1,2"]
+|====
+|Attribute |Presence |Description
+
+|`name`
+|Required
+|Name of the set of experiments.
+
+|`description`
+|Optional
+|Brief description of the set of experiments that is suitable for display to users, e.g. indicating the purpose of the set of experiments.
+|====
+
+Beside these attributes the root element `<Experiments>` contains the following elements:
+
+.`<Experiments>` element details.
+[[table-schema-ma-hs-experiments-root-elements]]
+[cols="1,3"]
+|====
+|Element |Description
+
+|`<Experiment>`
+|Each element describes one experiment setup.
+
+|`<Annotations>`
+|Optional annotations as defined in the FMI standard.
+|====
+
+An example of an experiments file is shown below:
+
+[source, xml]
+----
+include::examples/fmi_ls_ref_experiments_example.xml[]
+----
+
+=== Experiment
+
+Each experiment setup is described by an `<Experiment>` element.
+
+The `<Experiment>` element contains the following attributes:
+
+.Experiment Attributes.
+[[table-schema-ma-hs-experiments-experiment-attributes]]
+[cols="1,1,2"]
+|====
+|Attribute |Presence |Description
+
+|`name`
+|Required
+|Name of the experiment.
+
+|`description`
+|Optional
+|Brief description of the experiment that is suitable for display to users.
+
+|`startTime`
+|Optional
+|Start time of the experiment setup.
+
+|`stopTime`
+|Optional
+|Stop time of the experiment setup.
+
+|`tolerance`
+|Optional
+|Tolerance for the experiment setup.
+
+|`stepSize`
+|Optional
+|Step size for the experiment setup.
+|====
+
+The `<Experiment>` element contains the following child elements:
+
+.`<Experiment>` element details.
+[[table-schema-ma-hs-experiments-experiment-elements]]
+[cols="1,3"]
+|====
+|Element |Description
+
+|`<Parameters>`
+|Parameters for the experiment setup.
+
+|`<Stimuli>`
+|Reference stimuli for the experiment setup.
+
+|`<References>`
+|Reference results for the experiment setup.
+
+|`<Annotations>`
+|Optional annotations as defined in the FMI standard.
+|====
+
+=== Parameters
+
+The `<Parameters>` element references a parameter file for the experiment.
+It contains the following attributes:
+
+.Parameters Attributes.
+[[table-schema-ma-hs-experiments-parameters-attributes]]
+[cols="1,1,2"]
+|====
+|Attribute |Presence |Description
+
+|`type`
+|Optional
+|MIME type of the parameter data source.
+Defaults to `application/x-ssp-parameter-set` to indicate the SSV file format as specified in the SSP standard.
+
+|`source`
+|Required
+|Source of the parameter file as a URI.
+Any relative URIs are to be interpreted relative to the location of the experiments file.
+|====
+
+=== Stimuli and References
+
+The `<Stimuli>` element references a time series data file containing input stimuli for the experiment.
+The `<References>` element references a time series data file containing reference (expected) results for the experiment.
+Both elements have the same structure.
+
+.Time Series Data Attributes.
+[[table-schema-ma-hs-experiments-timeseries-attributes]]
+[cols="1,1,2"]
+|====
+|Attribute |Presence |Description
+
+|`type`
+|Optional
+|MIME type of the time series data source.
+Defaults to `text/csv`.
+Other supported types include `application/hdf5` for HDF5 files.
+
+|`source`
+|Required
+|Source of the time series data as a URI.
+Any relative URIs are to be interpreted relative to the location of the experiments file.
+|====
+
+[bibliography]
+== References
+
+- [[[RFC2119]]] RFC 2119. https://tools.ietf.org/html/rfc2119
+- [[[SSP20]]] System Structure and Parameterization 2.0. https://ssp-standard.org/docs/2.0/
+- [[[LICENSE]]] MA License text. https://raw.githubusercontent.com/modelica/fmi-standard/master/LICENSE.txt
