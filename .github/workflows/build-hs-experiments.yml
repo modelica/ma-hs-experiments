@@ -1,0 +1,64 @@
+name: Build Harmonized Specification Experiments
+
+on:
+  push:
+    branches-ignore: [ 'temp/*' ]
+    tags: ['*']
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-ls-ref:
+
+    runs-on: ubuntu-24.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+      with:
+        submodules: recursive
+
+    - name: Generate revnumber
+      run: |
+        [[ $GITHUB_REF_TYPE == "tag" ]] && REVNUMBER=${GITHUB_REF:11} || REVNUMBER=${GITHUB_SHA:0:7}
+        echo GITHUB_SHA:      $GITHUB_SHA
+        echo GITHUB_REF_TYPE: $GITHUB_REF_TYPE
+        echo GITHUB_REF:      $GITHUB_REF
+        echo REVNUMBER:       $REVNUMBER
+        echo "REVNUMBER=$REVNUMBER" >> $GITHUB_ENV
+
+    - name: Generate HTML
+      run: |
+        docker run --rm -v $PWD:/documents/ \
+          asciidoctor/docker-asciidoctor:1.101 \
+          asciidoctor -B /documents/docs -b html5 --failure-level INFO -v docs/index.adoc \
+          --attribute=revnumber=${{ env.REVNUMBER }} \
+          --attribute=revdate=$(date +%F)
+
+    - name: Copy license
+      run: cp LICENSE.txt docs
+
+    - name: Create ZIP archive
+      uses: actions/upload-artifact@v7
+      with:
+        name: MA-HS-EXPERIMENTS
+        path: |
+          docs/index.html
+          docs/LICENSE.txt
+          docs/images/*.svg
+          docs/theme/css/*.css
+          docs/theme/images/*.svg
+          docs/theme/js/*.js
+        if-no-files-found: error
+
+    - name: extract branch name
+      id: extract_branch
+      shell: bash
+      run: echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_OUTPUT
+    - name: deploy
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: docs
+        destination_dir: ${{ steps.extract_branch.outputs.branch }}
