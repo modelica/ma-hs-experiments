@@ -14,4 +14,9 @@
         <Stimuli source="test2-in.csv"/>
         <References source="test2-ref.hdf5" type="application/hdf5"/>
     </Experiment>
+    <Experiment name="Test3" description="Steady-state operating point check"
+        analysisType="steadyState" tolerance="0.004">
+        <Parameters source="steady-state-params.ssv"/>
+        <References source="test3-ref.csv"/>
+    </Experiment>
 </Experiments>
