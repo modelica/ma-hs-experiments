@@ -41,6 +41,74 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 <xs:element name="Experiment" minOccurs="1" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:sequence>
+                            <xs:choice>
+                                <xs:element name="TransientSimulation" type="TTransientSimulation">
+                                    <xs:annotation>
+                                        <xs:documentation xml:lang="en">
+                                            Indicates that this experiment is a time-domain
+                                            (transient) simulation, with startTime, stopTime, and
+                                            stepSize as its settings.
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:element>
+                                <xs:element name="SteadyState" type="TAnalysisTypeSettings">
+                                    <xs:annotation>
+                                        <xs:documentation xml:lang="en">
+                                            Indicates that this experiment is a steady-state
+                                            simulation, computing an equilibrium operating point
+                                            of the model. Reserved for future analysis-type-
+                                            specific settings.
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:element>
+                                <xs:element name="ParameterOptimization" type="TAnalysisTypeSettings">
+                                    <xs:annotation>
+                                        <xs:documentation xml:lang="en">
+                                            Indicates that this experiment is an optimization of
+                                            model parameters against a cost function or reference
+                                            data. Reserved for future analysis-type-specific
+                                            settings.
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:element>
+                                <xs:element name="SetPointOptimization" type="TAnalysisTypeSettings">
+                                    <xs:annotation>
+                                        <xs:documentation xml:lang="en">
+                                            Indicates that this experiment is an optimization of
+                                            set points for a given operating point of the model.
+                                            Reserved for future analysis-type-specific settings.
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:element>
+                                <xs:element name="SensitivityAnalysis" type="TAnalysisTypeSettings">
+                                    <xs:annotation>
+                                        <xs:documentation xml:lang="en">
+                                            Indicates that this experiment is a sensitivity
+                                            analysis of model outputs with respect to parameters
+                                            or inputs. Reserved for future analysis-type-specific
+                                            settings.
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:element>
+                                <xs:element name="TrajectoryOptimization" type="TAnalysisTypeSettings">
+                                    <xs:annotation>
+                                        <xs:documentation xml:lang="en">
+                                            Indicates that this experiment is an optimization of a
+                                            state or input trajectory over time. Reserved for
+                                            future analysis-type-specific settings.
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:element>
+                                <xs:element name="Linearization" type="TAnalysisTypeSettings">
+                                    <xs:annotation>
+                                        <xs:documentation xml:lang="en">
+                                            Indicates that this experiment is a linearization of
+                                            the model around an operating point. Reserved for
+                                            future analysis-type-specific settings.
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:element>
+                            </xs:choice>
                             <xs:element name="Parameters" minOccurs="0" type="TParameters"/>
                             <xs:element name="Stimuli" minOccurs="0" type="TTimeSeriesData"/>
                             <xs:element name="References" minOccurs="0" type="TTimeSeriesData"/>
@@ -48,56 +116,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         </xs:sequence>
                         <xs:attribute name="name" type="xs:string" use="required"/>
                         <xs:attribute name="description" type="xs:string"/>
-                        <xs:attribute name="analysisType" default="transientSimulation">
-                            <xs:annotation>
-                                <xs:documentation xml:lang="en">
-                                    This attribute specifies the type of analysis performed by
-                                    this experiment. The startTime, stopTime, and stepSize
-                                    attributes are only relevant when analysisType is
-                                    transientSimulation; name, description, and tolerance apply
-                                    to all analysis types. This enumeration is expected to be
-                                    extended in future revisions of this schema, e.g. to
-                                    harmonize with uncertainty quantification work from the
-                                    OpenScaling project.
-                                </xs:documentation>
-                            </xs:annotation>
-                            <xs:simpleType>
-                                <xs:restriction base="xs:string">
-                                    <xs:enumeration value="transientSimulation"/>
-                                    <xs:enumeration value="steadyState"/>
-                                    <xs:enumeration value="parameterOptimization"/>
-                                    <xs:enumeration value="setPointOptimization"/>
-                                    <xs:enumeration value="sensitivityAnalysis"/>
-                                    <xs:enumeration value="trajectoryOptimization"/>
-                                    <xs:enumeration value="linearization"/>
-                                </xs:restriction>
-                            </xs:simpleType>
-                        </xs:attribute>
-                        <xs:attribute name="startTime" type="xs:double">
-                            <xs:annotation>
-                                <xs:documentation xml:lang="en">
-                                    Start time of the experiment setup. Only relevant when
-                                    analysisType is transientSimulation.
-                                </xs:documentation>
-                            </xs:annotation>
-                        </xs:attribute>
-                        <xs:attribute name="stopTime" type="xs:double">
-                            <xs:annotation>
-                                <xs:documentation xml:lang="en">
-                                    Stop time of the experiment setup. Only relevant when
-                                    analysisType is transientSimulation.
-                                </xs:documentation>
-                            </xs:annotation>
-                        </xs:attribute>
                         <xs:attribute name="tolerance" type="xs:double"/>
-                        <xs:attribute name="stepSize" type="xs:double">
-                            <xs:annotation>
-                                <xs:documentation xml:lang="en">
-                                    Step size for the experiment setup. Only relevant when
-                                    analysisType is transientSimulation.
-                                </xs:documentation>
-                            </xs:annotation>
-                        </xs:attribute>
                     </xs:complexType>
                 </xs:element>
                 <xs:element ref="Annotations" minOccurs="0"/>
@@ -107,6 +126,41 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         </xs:complexType>
     </xs:element>
         
+    <xs:complexType name="TAnalysisTypeSettings">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Empty placeholder type shared by analysis types that do not yet have any
+                type-specific settings. Reserved for future extension, e.g. as separate
+                named types once analysis-type-specific attributes are defined for these
+                analysis types.
+            </xs:documentation>
+        </xs:annotation>
+    </xs:complexType>
+
+    <xs:complexType name="TTransientSimulation">
+        <xs:attribute name="startTime" type="xs:double">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    Start time of the transient simulation.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="stopTime" type="xs:double">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    Stop time of the transient simulation.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="stepSize" type="xs:double">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    Step size of the transient simulation.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
     <xs:complexType name="TParameters">
         <xs:sequence>
             <xs:element ref="Annotations" minOccurs="0"/>

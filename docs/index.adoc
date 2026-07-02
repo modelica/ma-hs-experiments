@@ -112,60 +112,12 @@ The `<Experiment>` element contains the following attributes:
 |Optional
 |Brief description of the experiment that is suitable for display to users.
 
-|`analysisType`
-|Optional
-|Type of analysis performed by this experiment. Defaults to `transientSimulation`. See <<table-schema-ma-hs-experiments-analysis-type-values>> for the allowed values.
-
-|`startTime`
-|Optional
-|Start time of the experiment setup. Only relevant when `analysisType` is `transientSimulation`.
-
-|`stopTime`
-|Optional
-|Stop time of the experiment setup. Only relevant when `analysisType` is `transientSimulation`.
-
 |`tolerance`
 |Optional
 |Tolerance for the experiment setup.
-
-|`stepSize`
-|Optional
-|Step size for the experiment setup. Only relevant when `analysisType` is `transientSimulation`.
 |====
 
-NOTE: `name`, `description`, and `tolerance` apply to every analysis type. `startTime`, `stopTime`, and `stepSize` are only meaningful for the `transientSimulation` analysis type; they are not enforced by the schema to be absent for other analysis types, but should be omitted.
-
-The `analysisType` attribute can take the following values:
-
-.Analysis Type Values.
-[[table-schema-ma-hs-experiments-analysis-type-values]]
-[cols="1,2",options="header"]
-|====
-|Value |Description
-
-|`transientSimulation`
-|Time-domain (transient) simulation of the model. This is the default analysis type.
-
-|`steadyState`
-|Steady-state simulation, computing an equilibrium operating point of the model.
-
-|`parameterOptimization`
-|Optimization of model parameters against a cost function or reference data.
-
-|`setPointOptimization`
-|Optimization of set points for a given operating point of the model.
-
-|`sensitivityAnalysis`
-|Sensitivity analysis of model outputs with respect to parameters or inputs.
-
-|`trajectoryOptimization`
-|Optimization of a state or input trajectory over time.
-
-|`linearization`
-|Linearization of the model around an operating point.
-|====
-
-This enumeration is expected to be extended in future revisions of this schema, e.g. to harmonize with uncertainty quantification work from the OpenScaling project.
+NOTE: `name`, `description`, and `tolerance` apply to every analysis type.
 
 The `<Experiment>` element contains the following child elements:
 
@@ -174,6 +126,27 @@ The `<Experiment>` element contains the following child elements:
 [cols="1,3"]
 |====
 |Element |Description
+
+|`<TransientSimulation>`
+|Indicates that this experiment is a time-domain (transient) simulation. Its `startTime`, `stopTime`, and `stepSize` attributes are only meaningful for this analysis type.
+
+|`<SteadyState>`
+|Indicates that this experiment is a steady-state simulation, computing an equilibrium operating point of the model. No type-specific attributes are currently defined.
+
+|`<ParameterOptimization>`
+|Indicates that this experiment is an optimization of model parameters against a cost function or reference data. No type-specific attributes are currently defined.
+
+|`<SetPointOptimization>`
+|Indicates that this experiment is an optimization of set points for a given operating point of the model. No type-specific attributes are currently defined.
+
+|`<SensitivityAnalysis>`
+|Indicates that this experiment is a sensitivity analysis of model outputs with respect to parameters or inputs. No type-specific attributes are currently defined.
+
+|`<TrajectoryOptimization>`
+|Indicates that this experiment is an optimization of a state or input trajectory over time. No type-specific attributes are currently defined.
+
+|`<Linearization>`
+|Indicates that this experiment is a linearization of the model around an operating point. No type-specific attributes are currently defined.
 
 |`<Parameters>`
 |Parameters for the experiment setup.
@@ -186,6 +159,32 @@ The `<Experiment>` element contains the following child elements:
 
 |`<Annotations>`
 |Optional annotations as defined in the FMI standard.
+|====
+
+Exactly one of `<TransientSimulation>`, `<SteadyState>`, `<ParameterOptimization>`, `<SetPointOptimization>`, `<SensitivityAnalysis>`, `<TrajectoryOptimization>`, or `<Linearization>` is required in every `<Experiment>`, identifying its analysis type.
+This set of analysis types is expected to be extended in future revisions of this schema, e.g. to harmonize with uncertainty quantification work from the OpenScaling project; type-specific attributes may be added to the currently empty analysis type elements at that point.
+
+=== Transient Simulation
+
+The `<TransientSimulation>` element indicates that the experiment is a time-domain simulation, and carries the following attributes:
+
+.TransientSimulation Attributes.
+[[table-schema-ma-hs-experiments-transient-simulation-attributes]]
+[cols="1,1,2"]
+|====
+|Attribute |Presence |Description
+
+|`startTime`
+|Optional
+|Start time of the transient simulation.
+
+|`stopTime`
+|Optional
+|Stop time of the transient simulation.
+
+|`stepSize`
+|Optional
+|Step size of the transient simulation.
 |====
 
 === Parameters

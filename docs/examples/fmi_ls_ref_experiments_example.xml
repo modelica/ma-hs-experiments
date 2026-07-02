@@ -4,18 +4,19 @@
     description="Simple set of smoke tests to validate the integration of an FMU into a simulation engine."
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../schema/maHarmonizedSpecificationExperiments.xsd">
-    <Experiment name="Test1" description="Baseline steady-state test"
-        startTime="0.0" stopTime="10.0" stepSize="0.001" tolerance="0.004">
+    <Experiment name="Test1" description="Baseline steady-state test" tolerance="0.004">
+        <TransientSimulation startTime="0.0" stopTime="10.0" stepSize="0.001"/>
         <Stimuli source="test1-in.csv"/>
         <References source="test1-ref.csv"/>
     </Experiment>
-    <Experiment name="Test2" description="Baseline dynamic test" startTime="0.0" stopTime="15.0" stepSize="0.010">
+    <Experiment name="Test2" description="Baseline dynamic test">
+        <TransientSimulation startTime="0.0" stopTime="15.0" stepSize="0.010"/>
         <Parameters source="dynamic-params.ssv"/>
         <Stimuli source="test2-in.csv"/>
         <References source="test2-ref.hdf5" type="application/hdf5"/>
     </Experiment>
-    <Experiment name="Test3" description="Steady-state operating point check"
-        analysisType="steadyState" tolerance="0.004">
+    <Experiment name="Test3" description="Steady-state operating point check" tolerance="0.004">
+        <SteadyState/>
         <Parameters source="steady-state-params.ssv"/>
         <References source="test3-ref.csv"/>
     </Experiment>
