@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="qualified">
-    <xs:import schemaLocation="https://raw.githubusercontent.com/modelica/fmi-standard/main/schema/fmi3Annotation.xsd"/>
+    <xs:import schemaLocation="https://raw.githubusercontent.com/modelica/fmi-standard/main/schema/fmi3Annotation.xsd" />
     <xs:annotation>
         <xs:documentation>
 Copyright(c) 2023-2025 Modelica Association Project "FMI".
@@ -119,10 +119,10 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         <xs:attribute name="tolerance" type="xs:double"/>
                     </xs:complexType>
                 </xs:element>
-                <xs:element ref="Annotations" minOccurs="0"/>
+                <xs:element ref="Annotations" minOccurs="0" />
             </xs:sequence>
-            <xs:attribute name="name" type="xs:string" use="required"/>
-            <xs:attribute name="description" type="xs:string"/>
+            <xs:attribute name="name" type="xs:string" use="required" />
+            <xs:attribute name="description" type="xs:string" />
         </xs:complexType>
     </xs:element>
         
@@ -163,14 +163,14 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <xs:complexType name="TParameters">
         <xs:sequence>
-            <xs:element ref="Annotations" minOccurs="0"/>
+            <xs:element ref="Annotations" minOccurs="0" />
         </xs:sequence>
         <xs:attribute name="type" type="xs:string" use="optional" default="application/x-ssp-parameter-set">
             <xs:annotation>
                 <xs:documentation xml:lang="en">
                     This attribute specifies the MIME type of the parameter data source, which
                     defaults to application/x-ssp-parameter-set to indicate the SSV file format
-                    as specified in the SSP standard. No further types are currently defined, 
+                    as specified in the SSP standard. No further types are currently defined,
                     but can of course be added at a later date.
                 </xs:documentation>
             </xs:annotation>
@@ -188,7 +188,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <xs:complexType name="TTimeSeriesData">
         <xs:sequence>
-            <xs:element ref="Annotations" minOccurs="0"/>
+            <xs:element ref="Annotations" minOccurs="0" />
         </xs:sequence>
         <xs:attribute name="type" type="xs:string" use="optional" default="text/csv">
             <xs:annotation>
