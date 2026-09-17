@@ -1,0 +1,27 @@
+name: Validate XML manifests
+
+on:
+  push:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    name: Validate XML against XSD
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Validate XSD schema
+        uses: phpcsstandards/xmllint-validate@5189514594c8d5f4cf21b7e5af50f54d697973d7 # v2.0.0
+        with:
+          pattern: schema/maHarmonizedSpecificationExperiments.xsd
+          xsd-url: https://www.w3.org/2012/04/XMLSchema.xsd
+
+      - name: Validate XML examples
+        if: always()
+        uses: phpcsstandards/xmllint-validate@5189514594c8d5f4cf21b7e5af50f54d697973d7 # v2.0.0
+        with:
+          pattern: 'docs/examples/*.xml'
+          xsd-file: 'schema/maHarmonizedSpecificationExperiments.xsd'
