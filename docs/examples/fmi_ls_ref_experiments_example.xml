@@ -2,9 +2,10 @@
 <Experiments
     name="Smoke Tests"
     description="Simple set of smoke tests to validate the integration of an FMU into a simulation engine."
+    xmlns="http://modelica.org/HSExperiments1/HSExperiments"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="../../schema/maHarmonizedSpecificationExperiments.xsd">
-    <Experiment
+    xsi:schemaLocation="http://modelica.org/HSExperiments1/HSExperiments ../../schema/maHarmonizedSpecificationExperiments.xsd">
+    <TransientExperiment
         name="Test1"
         description="Baseline steady-state test"
         startTime="0.0"
@@ -15,8 +16,8 @@
             source="test1-in.csv" />
         <References
             source="test1-ref.csv" />
-    </Experiment>
-    <Experiment
+    </TransientExperiment>
+    <TransientExperiment
         name="Test2"
         description="Baseline dynamic test"
         startTime="0.0"
@@ -29,5 +30,5 @@
         <References
             source="test2-ref.hdf5"
             type="application/hdf5" />
-    </Experiment>
+    </TransientExperiment>
 </Experiments>
