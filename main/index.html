@@ -478,7 +478,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Experiments Format</h1>
 <div class="details">
-<span id="revnumber">version 24e0456,</span>
+<span id="revnumber">version 4a4f042,</span>
 <span id="revdate">2026-10-21</span>
 </div>
 <div id="toc" class="toc2">
@@ -492,7 +492,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#experiments-format">2. Experiments Format</a>
 <ul class="sectlevel2">
-<li><a href="#experiment">2.1. Experiment</a></li>
+<li><a href="#transientexperiment">2.1. TransientExperiment</a></li>
 <li><a href="#parameters">2.2. Parameters</a></li>
 <li><a href="#stimuli-and-references">2.3. Stimuli and References</a></li>
 </ul>
@@ -581,6 +581,7 @@ Especially examples are defined in this style.
 </div>
 <div class="paragraph">
 <p>An experiments file is a valid XML file that conforms to the schema defined in <a href="../schema/maHarmonizedSpecificationExperiments.xsd">maHarmonizedSpecificationExperiments.xsd</a>.
+All elements are in the XML namespace <code><a href="http://modelica.org/HSExperiments1/HSExperiments" class="bare">http://modelica.org/HSExperiments1/HSExperiments</a></code>.
 The root element is <code>&lt;Experiments&gt;</code> with the following attributes:</p>
 </div>
 <table id="table-schema-ma-hs-experiments-root-attributes" class="tableblock frame-all grid-all stretch">
@@ -627,15 +628,27 @@ The root element is <code>&lt;Experiments&gt;</code> with the following attribut
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;Experiment&gt;</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Each element describes one experiment setup.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;TransientExperiment&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Each element describes one transient simulation experiment setup.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;Annotations&gt;</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Optional annotations as defined in the FMI standard.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional annotations as defined in the <code>maHarmonizedSpecificationExperiments.xsd</code> schema (copied from the FMI 3.0 annotation schema).</p></td>
 </tr>
 </tbody>
 </table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In future versions of this specification other experiment types than transient experiments might be introduced, in which case new XML child elements beside <code>&lt;TransientExperiment&gt;</code> could be added to the <code>&lt;Experiments&gt;</code> root element.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>An example of an experiments file is shown below:</p>
 </div>
@@ -645,9 +658,10 @@ The root element is <code>&lt;Experiments&gt;</code> with the following attribut
 &lt;Experiments
     name="Smoke Tests"
     description="Simple set of smoke tests to validate the integration of an FMU into a simulation engine."
+    xmlns="http://modelica.org/HSExperiments1/HSExperiments"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="../../schema/maHarmonizedSpecificationExperiments.xsd"&gt;
-    &lt;Experiment
+    xsi:schemaLocation="http://modelica.org/HSExperiments1/HSExperiments ../../schema/maHarmonizedSpecificationExperiments.xsd"&gt;
+    &lt;TransientExperiment
         name="Test1"
         description="Baseline steady-state test"
         startTime="0.0"
@@ -658,8 +672,8 @@ The root element is <code>&lt;Experiments&gt;</code> with the following attribut
             source="test1-in.csv" /&gt;
         &lt;References
             source="test1-ref.csv" /&gt;
-    &lt;/Experiment&gt;
-    &lt;Experiment
+    &lt;/TransientExperiment&gt;
+    &lt;TransientExperiment
         name="Test2"
         description="Baseline dynamic test"
         startTime="0.0"
@@ -672,17 +686,17 @@ The root element is <code>&lt;Experiments&gt;</code> with the following attribut
         &lt;References
             source="test2-ref.hdf5"
             type="application/hdf5" /&gt;
-    &lt;/Experiment&gt;
+    &lt;/TransientExperiment&gt;
 &lt;/Experiments&gt;</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="experiment">2.1. Experiment</h3>
+<h3 id="transientexperiment">2.1. TransientExperiment</h3>
 <div class="paragraph">
-<p>Each experiment setup is described by an <code>&lt;Experiment&gt;</code> element.</p>
+<p>Each transient experiment setup is described by a <code>&lt;TransientExperiment&gt;</code> element, indicating that the experiment is a transient simulation experiment, as opposed to e.g. a stationary simulation experiment or another kind of experiment.</p>
 </div>
 <div class="paragraph">
-<p>The <code>&lt;Experiment&gt;</code> element contains the following attributes:</p>
+<p>The <code>&lt;TransientExperiment&gt;</code> element contains the following attributes:</p>
 </div>
 <table id="table-schema-ma-hs-experiments-experiment-attributes" class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 3. Experiment Attributes.</caption>
@@ -732,10 +746,10 @@ The root element is <code>&lt;Experiments&gt;</code> with the following attribut
 </tbody>
 </table>
 <div class="paragraph">
-<p>The <code>&lt;Experiment&gt;</code> element contains the following child elements:</p>
+<p>The <code>&lt;TransientExperiment&gt;</code> element contains the following child elements:</p>
 </div>
 <table id="table-schema-ma-hs-experiments-experiment-elements" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. <code>&lt;Experiment&gt;</code> element details.</caption>
+<caption class="title">Table 4. <code>&lt;TransientExperiment&gt;</code> element details.</caption>
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 75%;">
@@ -761,7 +775,7 @@ The root element is <code>&lt;Experiments&gt;</code> with the following attribut
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;Annotations&gt;</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Optional annotations as defined in the FMI standard.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional annotations as defined in this schema derived from the FMI 3.0 annotation schema.</p></td>
 </tr>
 </tbody>
 </table>
