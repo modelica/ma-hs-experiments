@@ -53,6 +53,7 @@ NOTE: Especially examples are defined in this style.
 Files using this format shall use the MIME type `application/x-ma-hs-experiments`, and a file type suffix of `.exp`.
 
 An experiments file is a valid XML file that conforms to the schema defined in link:../schema/maHarmonizedSpecificationExperiments.xsd[maHarmonizedSpecificationExperiments.xsd].
+All elements are in the XML namespace `http://modelica.org/HSExperiments1/HSExperiments`.
 The root element is `<Experiments>` with the following attributes:
 
 .Experiments Attributes.
@@ -78,12 +79,14 @@ Beside these attributes the root element `<Experiments>` contains the following 
 |====
 |Element |Description
 
-|`<Experiment>`
-|Each element describes one experiment setup.
+|`<TransientExperiment>`
+|Each element describes one transient simulation experiment setup.
 
 |`<Annotations>`
-|Optional annotations as defined in the FMI standard.
+|Optional annotations as defined in the `maHarmonizedSpecificationExperiments.xsd` schema (copied from the FMI 3.0 annotation schema).
 |====
+
+NOTE: In future versions of this specification other experiment types than transient experiments might be introduced, in which case new XML child elements beside `<TransientExperiment>` could be added to the `<Experiments>` root element.
 
 An example of an experiments file is shown below:
 
@@ -92,11 +95,11 @@ An example of an experiments file is shown below:
 include::examples/fmi_ls_ref_experiments_example.xml[]
 ----
 
-=== Experiment
+=== TransientExperiment
 
-Each experiment setup is described by an `<Experiment>` element.
+Each transient experiment setup is described by a `<TransientExperiment>` element, indicating that the experiment is a transient simulation experiment, as opposed to e.g. a stationary simulation experiment or another kind of experiment.
 
-The `<Experiment>` element contains the following attributes:
+The `<TransientExperiment>` element contains the following attributes:
 
 .Experiment Attributes.
 [[table-schema-ma-hs-experiments-experiment-attributes]]
@@ -129,9 +132,9 @@ The `<Experiment>` element contains the following attributes:
 |Step size for the experiment setup.
 |====
 
-The `<Experiment>` element contains the following child elements:
+The `<TransientExperiment>` element contains the following child elements:
 
-.`<Experiment>` element details.
+.`<TransientExperiment>` element details.
 [[table-schema-ma-hs-experiments-experiment-elements]]
 [cols="1,3"]
 |====
@@ -147,7 +150,7 @@ The `<Experiment>` element contains the following child elements:
 |Reference results for the experiment setup.
 
 |`<Annotations>`
-|Optional annotations as defined in the FMI standard.
+|Optional annotations as defined in this schema derived from the FMI 3.0 annotation schema.
 |====
 
 === Parameters

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="qualified">
-    <xs:import schemaLocation="https://raw.githubusercontent.com/modelica/fmi-standard/main/schema/fmi3Annotation.xsd" />
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://modelica.org/HSExperiments1/HSExperiments"
+    targetNamespace="http://modelica.org/HSExperiments1/HSExperiments"
+    elementFormDefault="qualified" attributeFormDefault="unqualified">
     <xs:annotation>
         <xs:documentation>
 Copyright(c) 2023-2025 Modelica Association Project "FMI".
@@ -38,7 +40,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <xs:element name="Experiments">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="Experiment" minOccurs="1" maxOccurs="unbounded">
+                <xs:element name="TransientExperiment" minOccurs="1" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:sequence>
                             <xs:element name="Parameters" minOccurs="0" type="TParameters" />
@@ -110,4 +112,18 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
+
+    <xs:complexType name="TAnnotations">
+        <xs:sequence maxOccurs="unbounded">
+            <xs:element name="Annotation">
+                <xs:complexType mixed="true">
+                    <xs:sequence>
+                        <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded" />
+                    </xs:sequence>
+                    <xs:attribute name="type" type="xs:normalizedString" use="required" />
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Annotations" type="TAnnotations" />
 </xs:schema>
