@@ -9,6 +9,9 @@ jobs:
   validate:
     name: Validate XML against XSD
     runs-on: ubuntu-latest
+    env:
+      # Current libxml2 cannot fetch the http:// import of xml.xsd in the W3C schema, so map it to a local copy.
+      XML_CATALOG_FILES: schema/catalog.xml
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
