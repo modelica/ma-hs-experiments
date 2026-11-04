@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Provide xml.xsd to xmllint
         # Current libxml2 cannot fetch the http:// import of xml.xsd in the W3C schema, so map it to a local copy.
@@ -26,14 +26,14 @@ jobs:
           echo "XML_CATALOG_FILES=$RUNNER_TEMP/catalog.xml" >> "$GITHUB_ENV"
 
       - name: Validate XSD schema
-        uses: phpcsstandards/xmllint-validate@5189514594c8d5f4cf21b7e5af50f54d697973d7 # v2.0.0
+        uses: phpcsstandards/xmllint-validate@d0ee207a94a9539f5d14e78e3b13a81385252c88 # v2.0.1
         with:
           pattern: schema/maHarmonizedSpecificationExperiments.xsd
           xsd-url: https://www.w3.org/2012/04/XMLSchema.xsd
 
       - name: Validate XML examples
         if: always()
-        uses: phpcsstandards/xmllint-validate@5189514594c8d5f4cf21b7e5af50f54d697973d7 # v2.0.0
+        uses: phpcsstandards/xmllint-validate@d0ee207a94a9539f5d14e78e3b13a81385252c88 # v2.0.1
         with:
           pattern: 'docs/examples/*.xml'
           xsd-file: 'schema/maHarmonizedSpecificationExperiments.xsd'
