@@ -1,6 +1,7 @@
 # MA-HS-Experiments: Harmonized Specification for the Experiments Format
 
-[![Build Specification](https://github.com/modelica/ma-hs-experiments/actions/workflows/build-hs-experiments.yml/badge.svg)](https://github.com/modelica/ma-hs-experiments/actions/workflows/build-hs-experiments.yml)
+[![Build Specification][build-badge]][build-workflow]
+[![Specification][spec-badge]][spec]
 
 This repository contains the current draft of the Modelica Association
 Harmonized Specification for the **Experiments Format**
@@ -10,7 +11,7 @@ experiment setups for simulation models.
 The format supports specifying start/stop time, solver settings,
 parameter sets, stimuli, and reference results, and is intended to be
 referenced from layered standards such as
-[FMI-LS-REF](https://github.com/modelica/fmi-ls-ref).
+[FMI-LS-REF][fmi-ls-ref].
 
 Note that this draft is being worked on actively, and thus is subject to
 change without notice.
@@ -23,22 +24,19 @@ This is currently not normative, nor is this document to be considered
 officially endorsed by the Modelica Association or other involved
 organisations prior to official adoption.
 
-The [MA Harmonized Specification Experiments][spec] is currently
-maintained on [GitHub][githubspec] and is published [here][spec].
-
-[githubspec]: docs/index.adoc
-[spec]: https://modelica.github.io/ma-hs-experiments/main/
+The MA Harmonized Specification Experiments is currently maintained on
+[GitHub][githubspec] and is published as an
+[HTML document on GitHub Pages][spec].
 
 ## Contents
 
-- `docs/index.adoc` — The specification document (AsciiDoc)
-- `docs/examples/` — Example experiment files
-- `schema/maHarmonizedSpecificationExperiments.xsd` — XML Schema for the Experiments Format
-- `LICENSE.txt` — License information
+- [`docs/index.adoc`][githubspec] — The specification document (AsciiDoc)
+- [`docs/examples/`][examples] — Example experiment files
+- [`schema/maHarmonizedSpecificationExperiments.xsd`][schema] — XML Schema for the Experiments Format
 
 ## Building the Documentation
 
-The documentation uses [Asciidoctor](https://asciidoctor.org/).
+The documentation uses [Asciidoctor][asciidoctor].
 After cloning with submodules:
 
 ```bash
@@ -51,4 +49,15 @@ asciidoctor docs/index.adoc
 This document is licensed under the Attribution-ShareAlike 4.0
 International license.
 The schema and example code are released under the 2-Clause BSD License.
-See [LICENSE.txt](LICENSE.txt) for details.
+See [LICENSE.txt][license] for details.
+
+[asciidoctor]: https://asciidoctor.org/
+[build-badge]: https://github.com/modelica/ma-hs-experiments/actions/workflows/build-hs-experiments.yml/badge.svg
+[build-workflow]: https://github.com/modelica/ma-hs-experiments/actions/workflows/build-hs-experiments.yml
+[examples]: docs/examples/
+[fmi-ls-ref]: https://github.com/modelica/fmi-ls-ref
+[githubspec]: docs/index.adoc
+[license]: LICENSE.txt
+[schema]: schema/maHarmonizedSpecificationExperiments.xsd
+[spec]: https://modelica.github.io/ma-hs-experiments/main/
+[spec-badge]: https://img.shields.io/badge/spec-main-blue
