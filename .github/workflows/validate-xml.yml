@@ -9,12 +9,21 @@ jobs:
   validate:
     name: Validate XML against XSD
     runs-on: ubuntu-latest
-    env:
-      # Current libxml2 cannot fetch the http:// import of xml.xsd in the W3C schema, so map it to a local copy.
-      XML_CATALOG_FILES: schema/catalog.xml
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Provide xml.xsd to xmllint
+        # Current libxml2 cannot fetch the http:// import of xml.xsd in the W3C schema, so map it to a local copy.
+        run: |
+          curl -fsSL --retry 3 https://www.w3.org/2001/xml.xsd -o "$RUNNER_TEMP/xml.xsd"
+          cat > "$RUNNER_TEMP/catalog.xml" <<'EOF'
+          <?xml version="1.0"?>
+          <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+            <system systemId="http://www.w3.org/2001/xml.xsd" uri="xml.xsd"/>
+          </catalog>
+          EOF
+          echo "XML_CATALOG_FILES=$RUNNER_TEMP/catalog.xml" >> "$GITHUB_ENV"
 
       - name: Validate XSD schema
         uses: phpcsstandards/xmllint-validate@5189514594c8d5f4cf21b7e5af50f54d697973d7 # v2.0.0
